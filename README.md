@@ -45,6 +45,53 @@ The program relies on the [PapaCambridge](https://papacambridge.com/) website.
 
 The changelogs can be [**found here »»**](https://github.com/mrc2rules/CAIE_PastPapersOpener/blob/main/CHANGELOG.md)
 
+## Linux Port (`caie_downloader.py`)
+A pure-Python (standard library only) Linux port. It takes **just the subject code**
+and downloads **all question papers (qp), mark schemes (ms) and inserts (in)** for
+that subject, organised into `Past Papers/<SUBJECT>/<YEAR>/<Session>/`.
+
+It understands every paper code convention, including leading-zero codes used by
+subjects such as Pakistan Studies (`0448` IGCSE / `2059` O Level), where the question
+paper is `_qp_01.pdf`/`_qp_02.pdf` but the mark scheme is `_ms_1.pdf`/`_ms_2.pdf`.
+
+```bash
+# Interactive - prompts for subject code(s) (defaults to last 10 years)
+python3 caie_downloader.py
+
+# Multiple subjects in one run
+python3 caie_downloader.py 9702 0450 0500
+
+# Multiple subjects with a shared year range
+python3 caie_downloader.py 9702 0450 2019-2024
+
+# All years for one or more subjects
+python3 caie_downloader.py 9702 0450 --all
+
+# A specific year (2-digit form avoids ambiguity with 4-digit subject codes)
+python3 caie_downloader.py 9702 22          # year 2022
+python3 caie_downloader.py 9702 2019-2023   # a range
+
+# Only question papers, or only mark schemes (inserts off)
+python3 caie_downloader.py 9702 2020-2023 --qp
+python3 caie_downloader.py 9702 2020-2023 --ms
+
+# Only inserts
+python3 caie_downloader.py 2059 2022-2024 --in
+
+# Skip inserts (default is to include them)
+python3 caie_downloader.py 0448 2024 --no-in
+
+# Tune parallelism (default 16 concurrent requests)
+python3 caie_downloader.py 9702 2021-2024 --workers 8
+```
+
+> Year selection: a 4-digit number is read as a *subject code*, so to choose a
+> single year use the 2-digit form (`22` → 2022), a range (`2019-2023`), or `--all`.
+
+Requires only Python 3.6+ and an internet connection. No third-party packages.
+Corrupted / non-PDF files are rejected automatically (PapaCambridge serves an HTML
+page instead of a 404 for missing papers).
+
 ## Screenshots
 
 <p float="center">

@@ -1,0 +1,11 @@
+# Generated/downloaded data
+Past Papers/
+Past Papers*.tar.gz
+*.tar.gz
+
+# Python
+__pycache__/
+*.pyc
+
+# Local tooling
+.kilo/
